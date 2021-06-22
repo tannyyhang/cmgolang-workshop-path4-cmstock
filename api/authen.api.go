@@ -1,10 +1,11 @@
 package api
 
 import (
-	_ "time"
+	"time"
+	"main/db"
+	"main/model"
 
 	"github.com/gin-gonic/gin"
-	"main/model"
 )
 
 //ถ้าตอนนี้ ยังไม่ได้ใช้ก็ให้ void เอาไว้ก่อน โดยการใส่ _ นำหน้า
@@ -24,11 +25,28 @@ func login(c *gin.Context) {
 	c.JSON(200, gin.H{"result": "login"})
 }
 
+
+//func register(c *gin.Context) {
+	//var user model.User
+	//if c.ShouldBind(&user) == nil{
+		//ถ้าการ Bind ไม่มี error
+		//c.JSON(200, gin.H{"result": "register", "data": user})
+	//}
+	
+//}
+
 func register(c *gin.Context) {
 	var user model.User
 	if c.ShouldBind(&user) == nil{
 		//ถ้าการ Bind ไม่มี error
-		c.JSON(200, gin.H{"result": "register", "data": user})
+		//user.Password, _ = hashPassword(user.Password)
+		user.CreatedAt = time.Now()
+		if err := db.GetDB().Create(&user).Error; err != nil{
+			c.JSON(200, gin.H{"result": "nok", "error": err})
+		}else{
+			c.JSON(200, gin.H{"result": "ok", "data": user})
+		}
+		
 	}
 	
 }
