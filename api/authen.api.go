@@ -13,9 +13,10 @@ func SetupAuthenAPI(router *gin.Engine) {
 
 // Login - login api
 func login(c *gin.Context){
-	c.JSON(401, gin.H{"result": "login"})
+	//เปลี่ยน 401 -> 200
+	c.JSON(200, gin.H{"result": "login"})
 }
 
 func register(c *gin.Context){
-	c.JSON(401, gin.H{"result": "register"})
+	c.JSON(200, gin.H{"result": "register"})
 }

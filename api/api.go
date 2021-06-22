@@ -7,4 +7,5 @@ import(
 
 func Setup(router *gin.Engine){
 	SetupAuthenAPI(router)
+	SetupProductAPI(router)
 }
