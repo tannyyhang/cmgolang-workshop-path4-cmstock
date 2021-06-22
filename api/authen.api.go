@@ -1,6 +1,13 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	_ "time"
+
+	"github.com/gin-gonic/gin"
+	"main/model"
+)
+
+//ถ้าตอนนี้ ยังไม่ได้ใช้ก็ให้ void เอาไว้ก่อน โดยการใส่ _ นำหน้า
 
 func SetupAuthenAPI(router *gin.Engine) {
 	authenAPI := router.Group("/api/v2")
@@ -12,11 +19,16 @@ func SetupAuthenAPI(router *gin.Engine) {
 }
 
 // Login - login api
-func login(c *gin.Context){
+func login(c *gin.Context) {
 	//เปลี่ยน 401 -> 200
 	c.JSON(200, gin.H{"result": "login"})
 }
 
-func register(c *gin.Context){
-	c.JSON(200, gin.H{"result": "register"})
+func register(c *gin.Context) {
+	var user model.User
+	if c.ShouldBind(&user) == nil{
+		//ถ้าการ Bind ไม่มี error
+		c.JSON(200, gin.H{"result": "register", "data": user})
+	}
+	
 }
