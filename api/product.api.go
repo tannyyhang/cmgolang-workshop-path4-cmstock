@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-
+	"main/interceptor"
 	"github.com/gin-gonic/gin")
 
 
@@ -21,7 +21,7 @@ func SetupProductAPI(router *gin.Engine) {
 	productAPI := router.Group("/api/v2")
 	{
 		// ตรงนี้เคยมี error เกิดขึ้นเนื่องจาก
-		productAPI.GET("/product",myInterceptor, getProduct) //ตรงนี้เคยใช้ POST เลยเปลืี่ยนเป็น GET แทน (จะสังเกตุเห็นว่า่ ใช้ /product เหมือนกัน )
+		productAPI.GET("/product",interceptor.GeneralInterceptor1, getProduct) //ตรงนี้เคยใช้ POST เลยเปลืี่ยนเป็น GET แทน (จะสังเกตุเห็นว่า่ ใช้ /product เหมือนกัน )
 		productAPI.POST("/product", createProduct) //ดังนั้น จะต้อง พิจารณา  GET กับ POST ให้ดี
 	}
 }
